@@ -3,41 +3,6 @@ import requests
 from zipfile import ZipFile
 import shutil
 
-fall_urls = [
-    f"https://fenix.ur.edu.pl/mkepski/ds/data/fall-{i + 1:02d}-cam0-rgb.zip" for i in range(30)
-]
-
-adl_urls = [
-    f"https://fenix.ur.edu.pl/mkepski/ds/data/adl-{i + 1:02d}-cam0-rgb.zip" for i in range(40)
-]
-
-fall_accel_urls = [
-    f"https://fenix.ur.edu.pl/mkepski/ds/data/fall-{i + 1:02d}-acc.csv" for i in range(30)
-]
-
-adl_accel_urls = [
-    f"https://fenix.ur.edu.pl/mkepski/ds/data/adl-{i + 1:02d}-acc.csv" for i in range(40)
-]
-
-fall_sync_urls = [
-    f"https://fenix.ur.edu.pl/mkepski/ds/data/fall-{i + 1:02d}-data.csv" for i in range(30)
-]
-
-adl_sync_urls = [
-    f"https://fenix.ur.edu.pl/mkepski/ds/data/adl-{i + 1:02d}-data.csv" for i in range(40)
-]
-
-base_dir = "data"
-urfd_dir = "URFD"
-full_base_dir = os.path.join(base_dir, urfd_dir)
-fall_dir = os.path.join(full_base_dir, "Fall")
-no_fall_dir = os.path.join(full_base_dir, "ADL")
-
-os.makedirs(fall_dir, exist_ok=True)
-os.makedirs(no_fall_dir, exist_ok=True)
-
-
-# Function to download a file in chunks
 def download_file(url, save_path):
     print(f"Downloading: {url}")
     response = requests.get(url, stream=True)
@@ -48,7 +13,6 @@ def download_file(url, save_path):
         print(f"Downloaded {url} successfully.")
     else:
         print(f"Failed to download {url}. Status code: {response.status_code}")
-
 
 def unzip_file(zip_path, extract_to):
     try:
@@ -69,7 +33,6 @@ def organize_files(zip_path, destination_dir, folder_name):
     os.makedirs(video_dir, exist_ok=True)
     unzip_file(zip_path, video_dir)
 
-    # Delete the zip file after extracting
     os.remove(zip_path)
     print(f"Deleted zip file: {zip_path}")
 
@@ -78,10 +41,8 @@ def move_csv_data(csv_file, destination_dir, folder_name):
     shutil.move(csv_file, csv_dest)
     print(f"Moved accelerometer data {csv_file} to {destination_dir}/{folder_name}")
 
-def process_files():
-
+def process_urfd_files(fall_urls, adl_urls, fall_accel_urls, adl_accel_urls, fall_sync_urls, adl_sync_urls, base_dir, fall_dir, no_fall_dir):
     for i, url in enumerate(fall_urls):
-
         filename = url.split('/')[-1]
         file_path = os.path.join(base_dir, filename)
 
@@ -124,6 +85,3 @@ def process_files():
         move_csv_data(sync_file_path, no_fall_dir, folder_name)
 
     print("Download and extraction complete.")
-
-if __name__ == "__main__":
-    process_files()
