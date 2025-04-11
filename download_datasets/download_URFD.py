@@ -41,7 +41,7 @@ def move_csv_data(csv_file, destination_dir, folder_name):
     shutil.move(csv_file, csv_dest)
     print(f"Moved accelerometer data {csv_file} to {destination_dir}/{folder_name}")
 
-def process_urfd_files(fall_urls, adl_urls, fall_accel_urls, adl_accel_urls, fall_sync_urls, adl_sync_urls, base_dir, fall_dir, no_fall_dir):
+def download_and_extract_urfd(fall_urls, adl_urls, fall_accel_urls, adl_accel_urls, fall_sync_urls, adl_sync_urls, base_dir, fall_dir, no_fall_dir):
     for i, url in enumerate(fall_urls):
         filename = url.split('/')[-1]
         file_path = os.path.join(base_dir, filename)

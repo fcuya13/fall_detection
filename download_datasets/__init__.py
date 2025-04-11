@@ -1,6 +1,6 @@
 from download_datasets.download_GMDCSA24 import download_and_extract_gmdcsa24
-from download_datasets.download_FallVision import process_fallvision_files
-from download_datasets.download_URFD import process_urfd_files
+from download_datasets.download_FallVision import download_and_extract_fallvision
+from download_datasets.download_URFD import download_and_extract_urfd
 import os
 
 BASE_DIR = "data"
@@ -37,16 +37,16 @@ FALL_ACCEL_URLS = [f"https://fenix.ur.edu.pl/mkepski/ds/data/fall-{i + 1:02d}-ac
 ADL_ACCEL_URLS = [f"https://fenix.ur.edu.pl/mkepski/ds/data/adl-{i + 1:02d}-acc.csv" for i in range(40)]
 FALL_SYNC_URLS = [f"https://fenix.ur.edu.pl/mkepski/ds/data/fall-{i + 1:02d}-data.csv" for i in range(30)]
 ADL_SYNC_URLS = [f"https://fenix.ur.edu.pl/mkepski/ds/data/adl-{i + 1:02d}-data.csv" for i in range(40)]
-URFD_BASE_DIR = "data"
-URFD_FALL_DIR = os.path.join(URFD_BASE_DIR, "Fall")
-URFD_NO_FALL_DIR = os.path.join(URFD_BASE_DIR, "ADL")
+URFD_FALL_DIR = os.path.join(BASE_DIR, "Fall")
+URFD_NO_FALL_DIR = os.path.join(BASE_DIR, "ADL")
 
 def main():
-    # Run gmdcsa24_downloader
+
+    if os.path.exists(BASE_DIR):
+        return
+
     download_and_extract_gmdcsa24(GMDCSA_URL, BASE_DIR, GMDCSA_DIR, GMDCSA_ZIP_FILENAME)
 
-    # Run fallvision_downloader
-    process_fallvision_files(FALLVISION_FOLDERS, FALLVISION_BASE_URL, FALL_DIR, NO_FALL_DIR)
+    download_and_extract_fallvision(FALLVISION_FOLDERS, FALLVISION_BASE_URL, FALL_DIR, NO_FALL_DIR)
 
-    # Run urfd_downloader
-    process_urfd_files(FALL_URLS, ADL_URLS, FALL_ACCEL_URLS, ADL_ACCEL_URLS, FALL_SYNC_URLS, ADL_SYNC_URLS, URFD_BASE_DIR, URFD_FALL_DIR, URFD_NO_FALL_DIR)
+    download_and_extract_urfd(FALL_URLS, ADL_URLS, FALL_ACCEL_URLS, ADL_ACCEL_URLS, FALL_SYNC_URLS, ADL_SYNC_URLS, URFD_BASE_DIR, URFD_FALL_DIR, URFD_NO_FALL_DIR)

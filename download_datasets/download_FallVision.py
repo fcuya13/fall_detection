@@ -43,7 +43,7 @@ def extract_rar(rar_path, dest_folder):
         return False
     return True
 
-def process_fallvision_files(folders, base_url, fall_dir, no_fall_dir):
+def download_and_extract_fallvision(folders, base_url, fall_dir, no_fall_dir):
     for category, subfolders in folders.items():
         category_folder = fall_dir if category == 'Fall' else no_fall_dir
 
