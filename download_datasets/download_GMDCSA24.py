@@ -15,13 +15,13 @@ def download_and_extract_gmdcsa24(url, base_dir, dataset_dir, zip_filename):
     full_base_dir = os.path.join(base_dir, dataset_dir)
     os.makedirs(full_base_dir, exist_ok=True)
 
-    print(f"Downloading dataset...")
+    print(f"Downloading GMDCSA dataset...")
     response = requests.get(url)
 
     if response.status_code == 200:
         with open(zip_filename, 'wb') as f:
             f.write(response.content)
-        print(f"Downloaded {url} successfully.")
+        print(f"Downloaded dataset successfully.")
 
         with zipfile.ZipFile(zip_filename, 'r') as zip_ref:
             zip_ref.extractall(full_base_dir)

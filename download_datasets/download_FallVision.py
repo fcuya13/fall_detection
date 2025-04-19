@@ -9,6 +9,7 @@ def download_file(file_url, dest_path, retries=3):
         try:
             response = requests.get(file_url, stream=True)
             if response.status_code == 200:
+                print(f"Downloading {dest_path}")
                 with open(dest_path, 'wb') as f:
                     for chunk in response.iter_content(chunk_size=8192):
                         f.write(chunk)

@@ -45,6 +45,7 @@ def download_and_extract_urfd(fall_urls, adl_urls, fall_accel_urls, adl_accel_ur
     for i, url in enumerate(fall_urls):
         filename = url.split('/')[-1]
         file_path = os.path.join(base_dir, filename)
+        print(file_path)
 
         download_file(url, file_path)
 
