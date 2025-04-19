@@ -1,28 +1,27 @@
 import os
 import requests
 import rarfile
-import time
 
-def download_file(file_url, dest_path, retries=3):
-    attempt = 0
-    while attempt < retries:
-        try:
-            response = requests.get(file_url, stream=True)
-            if response.status_code == 200:
-                print(f"Downloading {dest_path}")
-                with open(dest_path, 'wb') as f:
-                    for chunk in response.iter_content(chunk_size=8192):
+session = requests.Session()
+session.headers.update({'User-Agent': 'Mozilla/5.0'})
+
+def download_file(file_url, dest_path):
+    try:
+        response = session.get(file_url, stream=True)
+        if response.status_code == 200:
+            print(f"Downloading {dest_path}")
+            os.makedirs(os.path.dirname(dest_path), exist_ok=True)
+            with open(dest_path, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=1024 * 1024):
+                    if chunk:
                         f.write(chunk)
-                print(f"Downloaded: {dest_path}")
-                return True
-            else:
-                print(f"Failed to download {file_url}. Status code: {response.status_code}")
-                return False
-        except Exception as e:
-            print(f"Error downloading {file_url}: {e}")
-            attempt += 1
-            time.sleep(5)
-    return False
+            print(f"Downloaded: {dest_path}")
+            return True
+        else:
+            print(f"Failed to download {file_url}. Status code: {response.status_code}")
+            return False
+    except Exception as e:
+        print(f"Error downloading {file_url}: {e}")
 
 def extract_rar(rar_path, dest_folder):
     try:

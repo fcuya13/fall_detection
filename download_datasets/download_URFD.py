@@ -3,16 +3,22 @@ import requests
 from zipfile import ZipFile
 import shutil
 
+session = requests.Session()
+session.headers.update({'User-Agent': 'Mozilla/5.0'})
+
 def download_file(url, save_path):
     print(f"Downloading: {url}")
-    response = requests.get(url, stream=True)
-    if response.status_code == 200:
-        with open(save_path, 'wb') as f:
-            for chunk in response.iter_content(chunk_size=8192):
-                f.write(chunk)
+    try:
+        os.makedirs(os.path.dirname(save_path), exist_ok=True)
+        with session.get(url, stream=True) as response:
+            response.raise_for_status()
+            with open(save_path, 'wb') as f:
+                for chunk in response.iter_content(chunk_size=1024 * 1024):
+                    if chunk:
+                        f.write(chunk)
         print(f"Downloaded {url} successfully.")
-    else:
-        print(f"Failed to download {url}. Status code: {response.status_code}")
+    except Exception as e:
+        print(f"Failed to download {url}. Error: {e}")
 
 def unzip_file(zip_path, extract_to):
     try:
@@ -42,10 +48,10 @@ def move_csv_data(csv_file, destination_dir, folder_name):
     print(f"Moved accelerometer data {csv_file} to {destination_dir}/{folder_name}")
 
 def download_and_extract_urfd(fall_urls, adl_urls, fall_accel_urls, adl_accel_urls, fall_sync_urls, adl_sync_urls, base_dir, fall_dir, no_fall_dir):
+    """
     for i, url in enumerate(fall_urls):
         filename = url.split('/')[-1]
         file_path = os.path.join(base_dir, filename)
-        print(file_path)
 
         download_file(url, file_path)
 
@@ -63,14 +69,14 @@ def download_and_extract_urfd(fall_urls, adl_urls, fall_accel_urls, adl_accel_ur
         sync_file_path = os.path.join(base_dir, sync_filename)
         download_file(sync_url, sync_file_path)
         move_csv_data(sync_file_path, fall_dir, folder_name)
-
+    """
     for i, url in enumerate(adl_urls):
         filename = url.split('/')[-1]
         file_path = os.path.join(base_dir, filename)
 
         download_file(url, file_path)
 
-        folder_name = f"NoFall{str(i + 1).zfill(2)}"
+        folder_name = f"NoFall{str(i + 6).zfill(2)}"
         organize_files(file_path, no_fall_dir, folder_name)
 
         accel_url = adl_accel_urls[i]
