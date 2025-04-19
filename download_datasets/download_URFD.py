@@ -48,7 +48,7 @@ def move_csv_data(csv_file, destination_dir, folder_name):
     print(f"Moved accelerometer data {csv_file} to {destination_dir}/{folder_name}")
 
 def download_and_extract_urfd(fall_urls, adl_urls, fall_accel_urls, adl_accel_urls, fall_sync_urls, adl_sync_urls, base_dir, fall_dir, no_fall_dir):
-    """
+
     for i, url in enumerate(fall_urls):
         filename = url.split('/')[-1]
         file_path = os.path.join(base_dir, filename)
@@ -69,14 +69,14 @@ def download_and_extract_urfd(fall_urls, adl_urls, fall_accel_urls, adl_accel_ur
         sync_file_path = os.path.join(base_dir, sync_filename)
         download_file(sync_url, sync_file_path)
         move_csv_data(sync_file_path, fall_dir, folder_name)
-    """
+
     for i, url in enumerate(adl_urls):
         filename = url.split('/')[-1]
         file_path = os.path.join(base_dir, filename)
 
         download_file(url, file_path)
 
-        folder_name = f"NoFall{str(i + 6).zfill(2)}"
+        folder_name = f"NoFall{str(i + 1).zfill(2)}"
         organize_files(file_path, no_fall_dir, folder_name)
 
         accel_url = adl_accel_urls[i]
