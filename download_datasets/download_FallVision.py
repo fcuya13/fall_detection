@@ -1,6 +1,6 @@
 import os
 import requests
-import rarfile
+#import rarfile
 
 session = requests.Session()
 session.headers.update({'User-Agent': 'Mozilla/5.0'})
