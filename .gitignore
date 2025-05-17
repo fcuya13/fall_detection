@@ -5,3 +5,7 @@ yolo/dataset
 .venv
 *.jpg
 *.csv
+runs
+*.npy
+*.zip
+*.pt
