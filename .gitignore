@@ -3,3 +3,5 @@ data
 *.pyc
 yolo/dataset
 .venv
+*.jpg
+*.csv
