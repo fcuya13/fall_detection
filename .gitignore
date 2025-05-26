@@ -1,7 +1,8 @@
 data
 .idea
 *.pyc
-yolo/dataset
+yolo
+results
 .venv
 *.jpg
 *.csv
@@ -9,3 +10,4 @@ runs
 *.npy
 *.zip
 *.pt
+/runs
