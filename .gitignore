@@ -3,3 +3,4 @@ data
 *.pyc
 yolo/dataset
 .venv
+face/dataset
