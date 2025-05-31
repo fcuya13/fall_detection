@@ -1,6 +1,7 @@
 data
 .idea
 *.pyc
-yolo/dataset
+fall/dataset
 .venv
 face/dataset
+fall/models
